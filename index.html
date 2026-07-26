@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pooja Verma | Full Stack .NET Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0d0f14;
+    --bg-alt: #12151c;
+    --surface: #171b24;
+    --surface-2: #1e2330;
+    --border: #2a3040;
+    --text: #e9e8f2;
+    --text-dim: #9296a8;
+    --violet: #7c5cff;
+    --violet-soft: rgba(124,92,255,0.14);
+    --cyan: #16e0c4;
+    --cyan-soft: rgba(22,224,196,0.12);
+    --amber: #ffb454;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background: var(--violet); color:#fff; }
+
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+
+  body::before{
+    content:'';
+    position:fixed; top:-20%; left:50%; transform:translateX(-50%);
+    width:1200px; height:800px;
+    background: radial-gradient(circle at center, rgba(124,92,255,0.16), transparent 60%);
+    pointer-events:none; z-index:0;
+  }
+
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    backdrop-filter: blur(14px);
+    background: rgba(13,15,20,0.72);
+    border-bottom:1px solid var(--border);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px; max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    font-family: var(--font-mono); font-weight:600; font-size:17px;
+    color: var(--text);
+    display:flex; align-items:center; gap:6px;
+  }
+  .logo span{ color: var(--cyan); }
+  .nav-links{ display:flex; gap:30px; align-items:center; }
+  .nav-links a{
+    font-size:14px; color: var(--text-dim); font-weight:500;
+    transition: color .2s ease;
+    position:relative;
+  }
+  .nav-links a:hover{ color: var(--text); }
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px;
+    background: var(--cyan); transition: width .2s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+  .btn-resume{
+    font-family: var(--font-mono); font-size:13px; font-weight:600;
+    padding:9px 18px; border-radius:6px;
+    background: var(--violet); color:#fff !important;
+    border:1px solid var(--violet);
+    transition: all .2s ease;
+  }
+  .btn-resume:hover{ background:transparent; color: var(--violet) !important; box-shadow: 0 0 0 1px var(--violet); }
+  .btn-resume::after{ display:none; }
+
+  .hero{
+    position:relative; z-index:1;
+    padding: 168px 0 100px;
+    display:grid; grid-template-columns: 1fr 1fr; gap:60px; align-items:center;
+  }
+  .eyebrow{
+    font-family: var(--font-mono); font-size:13px; color: var(--cyan);
+    display:flex; align-items:center; gap:10px; margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:''; width:8px; height:8px; border-radius:50%;
+    background: var(--cyan); box-shadow: 0 0 12px var(--cyan);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.35;} }
+
+  .hero h1{
+    font-family: var(--font-display);
+    font-size: 48px; font-weight:700; line-height:1.1;
+    letter-spacing:-1px; margin-bottom:20px;
+  }
+  .hero h1 .accent{
+    background: linear-gradient(100deg, var(--violet), var(--cyan));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.lead{
+    font-size:16px; color: var(--text-dim); max-width:500px; margin-bottom:32px;
+  }
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary, .btn-ghost{
+    font-family: var(--font-mono); font-size:14px; font-weight:600;
+    padding:13px 24px; border-radius:8px; display:inline-flex; align-items:center; gap:8px;
+    transition: all .2s ease;
+  }
+  .btn-primary{ background: var(--violet); color:#fff; border:1px solid var(--violet); }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,92,255,0.35); }
+  .btn-ghost{ border:1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--cyan); color: var(--cyan); }
+
+  .editor{
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+    transform: perspective(1000px) rotateY(-4deg) rotateX(1deg);
+  }
+  .editor-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px; background: var(--surface-2); border-bottom:1px solid var(--border);
+  }
+  .dot{ width:11px; height:11px; border-radius:50%; }
+  .dot.red{ background:#ff5f57; } .dot.yellow{ background:#febc2e; } .dot.green{ background:#28c840; }
+  .editor-tabs{ display:flex; }
+  .tab{
+    font-family: var(--font-mono); font-size:12.5px; color: var(--text-dim);
+    padding:10px 16px; border-right:1px solid var(--border); background: var(--surface);
+  }
+  .tab.active{ color: var(--cyan); background: var(--surface-2); border-top:2px solid var(--cyan); }
+  .editor-body{
+    padding:22px 24px; font-family: var(--font-mono); font-size:13px; line-height:1.85;
+    min-height:300px;
+  }
+  .ln{ color:#4a5066; display:inline-block; width:22px; user-select:none; }
+  .kw{ color:#ff7ab6; } .type{ color:#16e0c4; } .str{ color:#ffb454; } .fn{ color:#7c5cff; } .com{ color:#5c6377; }
+  .cursor{ display:inline-block; width:8px; height:16px; background: var(--cyan); vertical-align:middle; animation: blink 1s step-end infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  section{ position:relative; z-index:1; padding:100px 0; border-top:1px solid var(--border); }
+  .sec-tag{
+    font-family: var(--font-mono); font-size:13px; color: var(--violet);
+    margin-bottom:10px; display:block;
+  }
+  .sec-title{
+    font-family: var(--font-display); font-size:34px; font-weight:700;
+    letter-spacing:-0.5px; margin-bottom:44px;
+  }
+
+  .about-grid{ display:grid; grid-template-columns: 1.2fr 1fr; gap:60px; align-items:start; }
+  .about-text p{ color: var(--text-dim); font-size:15.5px; margin-bottom:16px; }
+  .stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .stat-card{
+    background: var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:22px; transition: border-color .2s ease;
+  }
+  .stat-card:hover{ border-color: var(--violet); }
+  .stat-num{ font-family: var(--font-display); font-size:28px; font-weight:700; color: var(--cyan); }
+  .stat-label{ font-size:12.5px; color: var(--text-dim); margin-top:4px; }
+
+  .skill-groups{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:20px; }
+  .skill-card{
+    background: var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px;
+  }
+  .skill-card h4{
+    font-family: var(--font-mono); font-size:13px; color: var(--cyan); margin-bottom:16px;
+    text-transform:uppercase; letter-spacing:.5px;
+  }
+  .chip-list{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-size:12.5px; padding:6px 12px; border-radius:20px;
+    background: var(--violet-soft); border:1px solid rgba(124,92,255,0.3); color: var(--text);
+  }
+
+  .timeline{ position:relative; padding-left:32px; }
+  .timeline::before{
+    content:''; position:absolute; left:6px; top:6px; bottom:6px; width:1px;
+    background: linear-gradient(var(--violet), var(--cyan));
+  }
+  .tl-item{ position:relative; margin-bottom:48px; }
+  .tl-item:last-child{ margin-bottom:0; }
+  .tl-item::before{
+    content:''; position:absolute; left:-32px; top:4px; width:13px; height:13px; border-radius:50%;
+    background: var(--bg); border:2px solid var(--cyan);
+  }
+  .tl-role{ font-family: var(--font-display); font-size:19px; font-weight:600; }
+  .tl-meta{ font-family: var(--font-mono); font-size:12.5px; color: var(--violet); margin:6px 0 12px; }
+  .tl-item ul{ margin-top:8px; }
+  .tl-item li{ color: var(--text-dim); font-size:14.5px; margin-bottom:6px; padding-left:16px; position:relative; }
+  .tl-item li::before{ content:'▹'; position:absolute; left:0; color: var(--cyan); }
+
+  .proj-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; }
+  .proj-card{
+    background: var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:26px; transition: transform .25s ease, border-color .25s ease;
+    display:flex; flex-direction:column;
+  }
+  .proj-card:hover{ transform: translateY(-6px); border-color: var(--cyan); }
+  .proj-icon{
+    font-family: var(--font-mono); font-size:11px; color: var(--bg); background: var(--cyan);
+    width:fit-content; padding:4px 10px; border-radius:5px; margin-bottom:16px; font-weight:700;
+  }
+  .proj-card h3{ font-family: var(--font-display); font-size:18px; margin-bottom:10px; }
+  .proj-card p{ color: var(--text-dim); font-size:13.5px; margin-bottom:16px; flex:1; }
+  .proj-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .proj-tags span{
+    font-family: var(--font-mono); font-size:10.5px; color: var(--text-dim);
+    border:1px solid var(--border); padding:3px 8px; border-radius:4px;
+  }
+  .other-projects{
+    margin-top:28px; padding:22px 26px; background: var(--surface); border:1px solid var(--border);
+    border-radius:12px; font-size:14px; color: var(--text-dim);
+  }
+  .other-projects b{ color: var(--text); }
+
+  .edu-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:22px; }
+  .edu-card{
+    background: var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px;
+  }
+  .edu-card h4{ font-family: var(--font-display); font-size:16px; margin-bottom:6px; }
+  .edu-card .edu-meta{ font-family: var(--font-mono); font-size:12px; color: var(--cyan); margin-bottom:4px; }
+  .edu-card .edu-year{ font-size:12.5px; color: var(--text-dim); }
+  .cert-list{ margin-top:20px; }
+  .cert-list li{ color: var(--text-dim); font-size:14px; margin-bottom:8px; padding-left:18px; position:relative; }
+  .cert-list li::before{ content:'✓'; position:absolute; left:0; color: var(--cyan); }
+
+  .contact-box{
+    background: linear-gradient(135deg, var(--surface), var(--surface-2));
+    border:1px solid var(--border); border-radius:18px;
+    padding:60px; text-align:center;
+  }
+  .contact-box h2{ font-family: var(--font-display); font-size:32px; margin-bottom:14px; }
+  .contact-box p{ color: var(--text-dim); margin-bottom:30px; }
+  .contact-links{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  .contact-link{
+    display:flex; align-items:center; gap:8px;
+    font-family: var(--font-mono); font-size:14px; font-weight:600;
+    padding:13px 22px; border-radius:8px; border:1px solid var(--border);
+    transition: all .2s ease;
+  }
+  .contact-link:hover{ border-color: var(--violet); color: var(--violet); transform: translateY(-2px); }
+
+  footer{ text-align:center; padding:30px 0; color: var(--text-dim); font-size:13px; border-top:1px solid var(--border); }
+  footer span{ color: var(--cyan); font-family: var(--font-mono); }
+
+  @media (max-width: 900px){
+    .hero{ grid-template-columns:1fr; padding-top:140px; }
+    .editor{ transform:none; order:-1; }
+    .about-grid{ grid-template-columns:1fr; }
+    .proj-grid{ grid-template-columns:1fr; }
+    .edu-grid{ grid-template-columns:1fr; }
+    .nav-links{ display:none; }
+    .hero h1{ font-size:34px; }
+    .contact-box{ padding:36px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">&lt;/&gt; <span>Pooja Verma</span></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="Pooja_Verma_CV.pdf" download class="btn-resume">Download Resume</a>
+  </nav>
+</header>
+
+<section class="hero wrap">
+  <div>
+    <span class="eyebrow">AVAILABLE FOR OPPORTUNITIES</span>
+    <h1>Building enterprise <span class="accent">.NET systems</span> that scale.</h1>
+    <p class="lead">Full Stack .NET Developer with 3+ years designing and delivering scalable enterprise applications across government, industrial, and commercial domains — with deep expertise in .NET Core, Angular, ASP.NET MVC, and MS SQL Server.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View Projects →</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="editor">
+    <div class="editor-bar">
+      <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+    </div>
+    <div class="editor-tabs">
+      <div class="tab active">Developer.cs</div>
+      <div class="tab">Skills.json</div>
+    </div>
+    <div class="editor-body" id="codeBody"></div>
+  </div>
+</section>
+
+<section id="about" class="wrap">
+  <span class="sec-tag">01 — About</span>
+  <h2 class="sec-title">Who I am</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a Full Stack .NET Developer based in Lucknow, India, with 3+ years designing and delivering scalable, high-performance enterprise applications across government, industrial, and commercial domains.</p>
+      <p>I bring strong expertise in .NET Core 6/8, Angular, ASP.NET MVC, C#, REST APIs, and MS SQL Server — applying SOLID principles, the Repository pattern, and clean architecture to build maintainable solutions.</p>
+      <p>I've led end-to-end development, integrated ERP and SAP systems, and collaborated in Agile cross-functional teams to ship enterprise-grade platforms for government bodies and industrial clients across Uttar Pradesh.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num">3+</div><div class="stat-label">Years of Experience</div></div>
+      <div class="stat-card"><div class="stat-num">6+</div><div class="stat-label">Enterprise Apps Delivered</div></div>
+      <div class="stat-card"><div class="stat-num">1,000+</div><div class="stat-label">Users Secured via RBAC</div></div>
+      <div class="stat-card"><div class="stat-num">40%</div><div class="stat-label">Query Performance Gain</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="wrap">
+  <span class="sec-tag">02 — Skills</span>
+  <h2 class="sec-title">Toolbox</h2>
+  <div class="skill-groups">
+    <div class="skill-card">
+      <h4>Backend</h4>
+      <div class="chip-list">
+        <span class="chip">.NET Core 6/8</span><span class="chip">ASP.NET MVC</span><span class="chip">ASP.NET Web Forms</span><span class="chip">Web API</span><span class="chip">Windows Forms</span><span class="chip">C#</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h4>Frontend</h4>
+      <div class="chip-list">
+        <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">Bootstrap</span><span class="chip">Tailwind CSS</span><span class="chip">JavaScript</span><span class="chip">jQuery</span><span class="chip">AJAX</span><span class="chip">Angular</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h4>Database</h4>
+      <div class="chip-list">
+        <span class="chip">MS SQL Server</span><span class="chip">Stored Procedures</span><span class="chip">CTEs</span><span class="chip">Triggers</span><span class="chip">LINQ</span><span class="chip">Query Optimization</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h4>API &amp; Integration</h4>
+      <div class="chip-list">
+        <span class="chip">REST API</span><span class="chip">ASMX API</span><span class="chip">SAP API</span><span class="chip">ERP Integration</span><span class="chip">Postman</span><span class="chip">Swagger</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h4>Architecture</h4>
+      <div class="chip-list">
+        <span class="chip">SOLID Principles</span><span class="chip">MVC Pattern</span><span class="chip">Repository Pattern</span><span class="chip">Clean Architecture</span><span class="chip">Layered Architecture</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h4>Tools &amp; Methods</h4>
+      <div class="chip-list">
+        <span class="chip">Visual Studio</span><span class="chip">VS Code</span><span class="chip">SSMS</span><span class="chip">IIS</span><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Agile</span><span class="chip">Mentoring</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="wrap">
+  <span class="sec-tag">03 — Experience</span>
+  <h2 class="sec-title">Where I've worked</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-role">Software Engineer – .NET Full Stack</div>
+      <div class="tl-meta">Vibrant IT Solutions Pvt. Ltd. · April 2025 – Present</div>
+      <ul>
+        <li>Architected and delivered scalable enterprise applications using .NET Core 6/8, ASP.NET MVC, and MS SQL Server, reducing deployment effort by 30% through reusable component design</li>
+        <li>Integrated SAP APIs and RESTful web services enabling real-time ERP data synchronization, eliminating manual data entry for 500+ daily transactions</li>
+        <li>Built dynamic dashboards and data-driven reporting modules, improving operational decision-making for Sales and Admin teams</li>
+        <li>Mentored junior developers on clean code practices, SOLID principles, and Git workflows, improving overall team delivery speed</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="tl-role">Software Engineer – .NET Full Stack</div>
+      <div class="tl-meta">Cloudsect Solution Pvt. Ltd. · December 2022 – March 2025</div>
+      <ul>
+        <li>Developed and deployed 6+ enterprise-grade web and desktop applications serving government bodies and industrial clients across Uttar Pradesh</li>
+        <li>Designed complex SQL stored procedures, CTEs, and triggers for high-volume datasets, improving critical query performance by up to 40%</li>
+        <li>Implemented Role-Based Access Control (RBAC) across multiple applications, ensuring secure and controlled workflows for 1,000+ users</li>
+        <li>Collaborated with QA, business analysts, and clients in Agile sprints, delivering projects on time with zero critical post-deployment defects</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="wrap">
+  <span class="sec-tag">04 — Projects</span>
+  <h2 class="sec-title">Selected work</h2>
+  <div class="proj-grid">
+    <div class="proj-card">
+      <span class="proj-icon">ENTERPRISE</span>
+      <h3>Dham Pur Sugar — Sales Operations Platform</h3>
+      <p>Full-cycle sales management system with multi-level access (Admin, Sales Head, Agent), approval workflows, real-time status tracking, and SAP API integration cutting manual reconciliation by 60%.</p>
+      <div class="proj-tags"><span>.NET Core</span><span>C#</span><span>SQL Server</span><span>SAP API</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-icon">FIELD OPS</span>
+      <h3>Birla Dev Cane Management System</h3>
+      <p>Field operations platform managing 10,000+ farmer records with attendance tracking, seed reservation, plot modification, division-wise logins, and centralized MIS reporting.</p>
+      <div class="proj-tags"><span>ASP.NET MVC</span><span>C#</span><span>SQL Server</span><span>Bootstrap</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-icon">GOVERNMENT</span>
+      <h3>State Election Commission &amp; CEOUP Polling System</h3>
+      <p>Secure, high-availability online voting and polling systems built for statewide elections, with strict data integrity and access control for election officials.</p>
+      <div class="proj-tags"><span>ASP.NET Web Forms</span><span>SQL Server</span><span>Bootstrap</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-icon">ENTERPRISE</span>
+      <h3>ERMS V2 — Enterprise Resource Management</h3>
+      <p>Large-scale ERMS for government departments supporting workflow automation, employee management, approvals, and RBAC. Responsive Angular front end integrated with .NET Core REST APIs, optimized for 500+ concurrent users.</p>
+      <div class="proj-tags"><span>Angular</span><span>.NET Core</span><span>Web API</span><span>SQL Server</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-icon">GOVERNMENT</span>
+      <h3>ERMS ULB &amp; PRI / MPS Application</h3>
+      <p>Multi-department Enterprise Resource Management Systems built for UP government bodies, supporting 500+ concurrent users across departments.</p>
+      <div class="proj-tags"><span>.NET Core</span><span>ASP.NET MVC</span><span>ASMX API</span><span>SQL Server</span></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-icon">AGRI-TECH</span>
+      <h3>Dalmia Bharat Sugar — Cane Development</h3>
+      <p>Cane Development modules with API integration, attendance reporting, indent management, and operational MIS reports for enterprise agri operations.</p>
+      <div class="proj-tags"><span>ASP.NET</span><span>C#</span><span>SQL Server</span><span>JavaScript</span></div>
+    </div>
+  </div>
+  <div class="other-projects">
+    <b>Also shipped:</b> Wave Dev — a supply chain operations app tracking Diesel, Indent, and Planting workflows with access control and real-time reporting · Rapidkabaddi — a real-time sports platform for live Kabaddi match scores and statistics.
+  </div>
+</section>
+
+<section id="education" class="wrap">
+  <span class="sec-tag">05 — Education &amp; Certifications</span>
+  <h2 class="sec-title">Background</h2>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <h4>B.Tech — Computer Science &amp; Engineering</h4>
+      <div class="edu-meta">Himalayan Institute of Technology and Management, Lucknow</div>
+      <div class="edu-year">2025</div>
+    </div>
+    <div class="edu-card">
+      <h4>Diploma — Information Technology</h4>
+      <div class="edu-meta">Government Girls Polytechnic, Ayodhya</div>
+      <div class="edu-year">2021</div>
+    </div>
+  </div>
+  <ul class="cert-list">
+    <li>eCareer Advancement Bootcamp (1 Month) — Medha</li>
+    <li>Apprenticeship — Techpile Technology Pvt. Ltd. (July 2022 – December 2022): Hands-on training in ASP.NET MVC, JavaScript, Bootstrap, jQuery</li>
+  </ul>
+</section>
+
+<section id="contact" class="wrap" style="border-bottom:1px solid var(--border);">
+  <div class="contact-box">
+    <h2>Let's build something reliable.</h2>
+    <p>Open to Full Stack .NET Developer roles — reach out anytime.</p>
+    <div class="contact-links">
+      <a href="mailto:pv150489@gmail.com" class="contact-link">✉ pv150489@gmail.com</a>
+      <a href="tel:+916388943172" class="contact-link">☎ 6388943172</a>
+      <a href="https://linkedin.com/in/pooja-verma-aa0150239" target="_blank" class="contact-link">in LinkedIn</a>
+      <a href="Pooja_Verma_CV.pdf" download class="contact-link">↓ Download Resume</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  Built with <span>C#</span> and care — © 2026 Pooja Verma
+</footer>
+
+<script>
+  const codeLines = [
+    { n:1, html:`<span class="kw">public</span> <span class="type">class</span> <span class="fn">Developer</span>` },
+    { n:2, html:`{` },
+    { n:3, html:`&nbsp;&nbsp;<span class="type">string</span> Name = <span class="str">"Pooja Verma"</span>;` },
+    { n:4, html:`&nbsp;&nbsp;<span class="type">string</span> Role = <span class="str">"Full Stack .NET Developer"</span>;` },
+    { n:5, html:`&nbsp;&nbsp;<span class="type">string</span> Location = <span class="str">"Lucknow, India"</span>;` },
+    { n:6, html:`&nbsp;&nbsp;<span class="type">int</span> ExperienceYears = 3;` },
+    { n:7, html:`&nbsp;&nbsp;<span class="type">string</span>[] Stack = { <span class="str">".NET Core"</span>, <span class="str">"Angular"</span>, <span class="str">"SQL Server"</span> };` },
+    { n:8, html:`` },
+    { n:9, html:`&nbsp;&nbsp;<span class="com">// currently @ Vibrant IT Solutions</span>` },
+    { n:10, html:`&nbsp;&nbsp;<span class="kw">public</span> <span class="type">bool</span> <span class="fn">IsHireable</span>() => <span class="kw">true</span>;` },
+    { n:11, html:`}` },
+  ];
+
+  const body = document.getElementById('codeBody');
+  let i = 0;
+  function typeLine(){
+    if(i >= codeLines.length){
+      const cur = document.createElement('span');
+      cur.className = 'cursor';
+      body.appendChild(cur);
+      return;
+    }
+    const line = codeLines[i];
+    const div = document.createElement('div');
+    div.innerHTML = `<span class="ln">${line.n}</span>${line.html}`;
+    body.appendChild(div);
+    i++;
+    setTimeout(typeLine, 120);
+  }
+  typeLine();
+</script>
+
+</body>
+</html>
